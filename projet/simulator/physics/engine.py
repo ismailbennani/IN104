@@ -1,28 +1,35 @@
 from ..utils.vector import Vector, Vector2
 from .constants import G
+from simulator import Body
+from simulator import World
 
 
 def gravitational_force(pos1, mass1, pos2, mass2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
+        
+        
+        
     """
-    raise NotImplementedError
+    alpha = G*(mass1*mass2)/sqrnorm((pos2-pos1))
+    
+    Fx.set_x = alpha * get_x(pos1) - get_x(pos_2)
+    Fy.set_y = alpha * get_y(pos1) - get_y(pos_2)
+    
+    return  Vector2(Fx, Fy)
 
+    raise NotImplementedError
+    
+    
+    
+    
 
 class IEngine:
     def __init__(self, world):
         self.world = world
         
         
-    def integrate(f, y0, t, h):
-        
-        
-        return y0 + h * f(t, y0)
-        raise NotImplementedError
-        
-        
-    def f()
-        
+   
         
 
     def derivatives(self, t0, y0):
@@ -38,17 +45,27 @@ class IEngine:
                 [vx1, vy1, vx2, vy2, ..., vxn, vyn, ax1, ay1, ax2, ay2, ..., axn, ayn]
             where vxi, vyi are the velocities and axi, ayi are the accelerations.
         """
+        mass =[]
+        
+        for element in World :
+            mass.append(element.mass)
+        
         
         
         state = []
         self.y0 = y0
-        
         for i in range (0, n):
             state.append(y0[i+n])
             
-        for j in range(0,n):
-            state.append(integrate(f, ))
             
+        for j in range(0,n):
+            for k in range (0,n):
+                if j!=k:
+                    a += 1/mass[j] * gravitational_force(y0[j],mass[j] , y0[k], mass[k])
+                    
+            
+            state.append(a)
+            a=0
             
             
             
@@ -65,7 +82,24 @@ class IEngine:
                 [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
             where xi, yi are the positions and vxi, vyi are the velocities.
         """
+        
+        
+        
+        
+        
+        
+        
         raise NotImplementedError
+
+
+
+
+
+
+
+
+
+
 
 
 class DummyEngine(IEngine):
