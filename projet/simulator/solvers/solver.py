@@ -24,6 +24,17 @@ class ISolver:
             throughout the execution of the program.
             Return the new state at time t.
         """
+        t0 = self.t0
+        h = self.max_step_size
+        N = floor((t - t0)/h)
+        y = self.y0
+        f = self.f
+        
+        for k in range(N):
+            y += h*f( k*h , y)
+        t += h
+        return y
+        
         raise NotImplementedError
 
 
