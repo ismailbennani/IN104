@@ -12,11 +12,24 @@ def gravitational_force(pos1, mass1, pos2, mass2):
 class IEngine:
     def __init__(self, world):
         self.world = world
+        
+        
+    def integrate(f, y0, t, h):
+        
+        
+        return y0 + h * f(t, y0)
+        raise NotImplementedError
+        
+        
+    def f()
+        
+        
 
     def derivatives(self, t0, y0):
+        
         """ This is the method that will be fed to the solver
             it does not use it's first argument t0,
-            its second argument y0 is a vector containing the positions 
+            its second argument y0 is a vector containing the positions
             and velocities of the bodies, it is laid out as follow
                 [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
             where xi, yi are the positions and vxi, vyi are the velocities.
@@ -25,12 +38,29 @@ class IEngine:
                 [vx1, vy1, vx2, vy2, ..., vxn, vyn, ax1, ay1, ax2, ay2, ..., axn, ayn]
             where vxi, vyi are the velocities and axi, ayi are the accelerations.
         """
+        
+        
+        state = []
+        self.y0 = y0
+        
+        for i in range (0, n):
+            state.append(y0[i+n])
+            
+        for j in range(0,n):
+            state.append(integrate(f, ))
+            
+            
+            
+            
+        
+        
+        
         raise NotImplementedError
 
     def make_solver_state(self):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
-            In our case, it is the vector containing the 
+            In our case, it is the vector containing the
             positions and speeds of all our bodies:
                 [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
             where xi, yi are the positions and vxi, vyi are the velocities.
