@@ -1,7 +1,10 @@
-from ..utils.vector import Vector, Vector2
-from .constants import G
 from simulator import Body
 from simulator import World
+
+from constants import G
+from vector import Vector, Vector2
+
+
 
 
 def gravitational_force(self, pos1, mass1, pos2, mass2):
@@ -53,7 +56,7 @@ class IEngine:
             mass.append(element.mass)
         
         
-        
+        n = len(y0)
         state = []
         self.y0 = y0
         for i in range (0, n):
@@ -88,7 +91,9 @@ class IEngine:
         
         
         
-        
+        y = ISolver().__init__(self.derivatives, t0, y0, max_step_size=0.01)
+        y=y.ISolver.integrate(t)
+        return y
         
         
         raise NotImplementedError
