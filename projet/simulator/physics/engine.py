@@ -1,9 +1,10 @@
-from .simulator import Body
-from simulator import World
-from ..solvers.solver import ISolver
+from simulator.utils.world import Body, World
+"""from simulator.utils import World"""
 
-from constants import G
-from vector import Vector, Vector2
+from simulator.solvers.solver import ISolver
+
+from .constants import G
+from ..utils.vector import Vector, Vector2
 
 
 
@@ -64,7 +65,7 @@ class IEngine(ISolver):
         for j in range(0,n):
             for k in range (0,n):
                 if j!=k:
-                    a += (1/mass[j]) * gravitational_force(y0[j] , mass[j] , y0[k] , mass[k])
+                    a += (1/mass[j]) * self.gravitational_force(y0[j] , mass[j] , y0[k] , mass[k])
             state.append(a)
             a=0
             
