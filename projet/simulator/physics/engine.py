@@ -1,4 +1,4 @@
-from .simulator import Body
+from simulator import Body
 from simulator import World
 from ..solvers.solver import ISolver
 
