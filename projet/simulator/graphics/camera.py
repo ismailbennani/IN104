@@ -27,5 +27,5 @@ class Camera(ICamera):
     def from_screen_coords(self, position):
         """ Converts the screen-coordinate position to a world-coordinate. """
         theta = 30
-        self.image = Vector2( position.getx -position.gety/tan(theta) , position.gety/sin(theta) )
+        image = Vector2( position.getx -position.gety/tan(theta) , position.gety/sin(theta) )
         return image
