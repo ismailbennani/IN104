@@ -4,17 +4,19 @@ from simulator import Body
 from simulator import World
 
 
-def gravitational_force(pos1, mass1, pos2, mass2):
+def gravitational_force(self, pos1, mass1, pos2, mass2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
         
         
         
     """
+    
+    
     alpha = G*(mass1*mass2)/sqrnorm((pos2-pos1))
     
-    Fx.set_x = alpha * get_x(pos1) - get_x(pos_2)
-    Fy.set_y = alpha * get_y(pos1) - get_y(pos_2)
+    Fx.set_x = alpha * self.get_x(pos1) - self.get_x(pos_2)
+    Fy.set_y = alpha * self.get_y(pos1) - self.get_y(pos_2)
     
     return  Vector2(Fx, Fy)
 
