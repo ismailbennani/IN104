@@ -1,5 +1,6 @@
-from simulator import Body
+from .simulator import Body
 from simulator import World
+from ..solvers.solver import ISolver
 
 from constants import G
 from vector import Vector, Vector2
@@ -29,12 +30,9 @@ def gravitational_force(self, pos1, mass1, pos2, mass2):
     
     
 
-class IEngine:
+class IEngine(ISolver):
     def __init__(self, world):
         self.world = world
-        
-        
-   
         
 
     def derivatives(self, t0, y0):
@@ -58,7 +56,7 @@ class IEngine:
         
         n = len(y0)
         state = []
-        self.y0 = y0
+        y0 = self.y0
         for i in range (0, n):
             state.append(y0[i+n])
             
@@ -66,20 +64,15 @@ class IEngine:
         for j in range(0,n):
             for k in range (0,n):
                 if j!=k:
-                    a += 1/mass[j] * gravitational_force(y0[j],mass[j] , y0[k], mass[k])
-                    
-            
+                    a += (1/mass[j]) * gravitational_force(y0[j] , mass[j] , y0[k] , mass[k])
             state.append(a)
             a=0
             
-            
-            
-        
-        
-        
+        return state
+    
         raise NotImplementedError
 
-    def make_solver_state(self):
+    def make_solver_state(self, t, t0, y0):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
             In our case, it is the vector containing the
@@ -88,13 +81,12 @@ class IEngine:
             where xi, yi are the positions and vxi, vyi are the velocities.
         """
         
-        
-        
-        
         y = ISolver().__init__(self.derivatives, t0, y0, max_step_size=0.01)
-        y=y.ISolver.integrate(t)
-        return y
+        y = y.ISolver.integrate(t)
         
+
+        return y
+
         
         raise NotImplementedError
 
