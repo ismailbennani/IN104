@@ -11,7 +11,7 @@ def gravitational_force(self, pos1, mass1, pos2, mass2):
         
         
     """
-    
+    __init__(self, Fx=0, Fy=0)
     
     alpha = G*(mass1*mass2)/sqrnorm((pos2-pos1))
     
