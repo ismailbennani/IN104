@@ -2,8 +2,8 @@ from simulator import Body
 from simulator import World
 from ..solvers.solver import ISolver
 
-from constants import G
-from vector import Vector, Vector2
+from .constants import G
+from .vector import Vector, Vector2
 
 
 
