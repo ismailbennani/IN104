@@ -3,7 +3,7 @@ from ..utils.uid import UID
 
 
 class Body:
-    def __init__(self, position, velocity=Vector2(0, 0), mass=1, color=(255, 255, 255), draw_radius=50):
+    def __init__(self, position=Vector2(0,0), velocity=Vector2(0, 0), mass=1, color=(255, 255, 255), draw_radius=50):
         self.position = position
         self.velocity = velocity
         self.mass = mass
@@ -12,7 +12,9 @@ class Body:
 
     def __str__(self):
         return "<pos:%s, vel:%s, mass:%.2f>" % (self.position, self.velocity, self.mass)
-
+    
+    def mass(self):
+        return self.mass
 
 class World:
     def __init__(self):
@@ -48,3 +50,4 @@ class World:
             (len(self),
              '\n\t'.join([str(i) + ": " + str(self._bodies[i])
                           for i in range(len(self))]))
+            
