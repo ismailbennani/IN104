@@ -55,7 +55,7 @@ class IEngine(ISolver):
 
 class DummyEngine(IEngine):
     
-    def derivatives(self, t0, y0):
+    def derivatives(self, world, t0, y0):
         """ This is the method that will be fed to the solver
             it does not use it's first argument t0,
             its second argument y0 is a vector containing the positions
@@ -71,23 +71,27 @@ class DummyEngine(IEngine):
         
         n = floor(len(y0)/4)
         y0_prime = Vector(4*n)
-        F = Vector2(0,0)
-            
+        
+        """ Vecteur qui contiendra les coordonnées de l'accélération"""
+        F = Vector2(0,0) 
+       
         for i in range(n) :
             y0_prime[2*i] = y0[2*(n+i)]
             y0_prime[2*i + 1] = y0[2*(n+i) + 1] 
             
             pos1 = Vector2( y0[2*i], y0[2*i+1])
-            F.set_x(0)
-            F.set_y(0)
             
             for k in range(n) :
                 if k != i :
-                    body = self.world._bodies[i]
+                    body = world.get(i)
                     F += gravitational_force( body.mass, pos1, body.position)
             
             y0_prime[2*(n+i)] = F.get_x()
             y0_prime[2*(n+i) +  1] = F.get_y()
+            
+            """ remise à 0 de l'accélération"""
+            F.set_x(0)
+            F.set_y(0)
             
         return y0_prime
     
@@ -112,7 +116,7 @@ class DummyEngine(IEngine):
             y0[2*(n+i)] = body.velocity.get_x
             y0[2*(n+i) + 1] = body.velocity.get_y
         
-        y = ISolver(self.derivatives(0,  y0), t0, y0, max_step_size=0.01)
+        y = ISolver(self.derivatives( world, 0,  y0), t0, y0, max_step_size=0.01)
         y = y.integrate(t)
         
         return y
