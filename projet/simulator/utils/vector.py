@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, floor
 
 
 class VectorError(Exception):
@@ -8,7 +8,7 @@ class VectorError(Exception):
 class Vector:
     def __init__(self, dim):
         self.dim = dim
-        self._values = [0 for i in range(dim)]
+        self._values = [0 for i in range(floor(dim))]
 
     def sqrnorm(self):
         sqr_values = [x*x for x in self._values]
