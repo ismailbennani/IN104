@@ -1,33 +1,22 @@
-from simulator import Body
-from simulator import World
+from ..utils.world import Body, World
 from ..solvers.solver import ISolver
-
+from math import floor
 from .constants import G
-from .vector import Vector, Vector2
+from ..utils.vector import Vector, Vector2
 
 
 
 
-def gravitational_force(self, pos1, mass1, pos2, mass2):
+def gravitational_force( mass2, pos1, pos2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
-        
-        
-        
     """
-    __init__(self, Fx=0, Fy=0)
     
-    alpha = G*(mass1*mass2)/sqrnorm((pos2-pos1))
+    F = (G*(mass2)/(((pos1-pos2).norm)**3))*(pos2 - pos1)
     
-    Fx.set_x = alpha * self.get_x(pos1) - self.get_x(pos_2)
-    Fy.set_y = alpha * self.get_y(pos1) - self.get_y(pos_2)
-    
-    return  Vector2(Fx, Fy)
+    return  F
 
     raise NotImplementedError
-    
-    
-    
     
 
 class IEngine(ISolver):
@@ -36,7 +25,6 @@ class IEngine(ISolver):
         
 
     def derivatives(self, t0, y0):
-        
         """ This is the method that will be fed to the solver
             it does not use it's first argument t0,
             its second argument y0 is a vector containing the positions
@@ -48,27 +36,7 @@ class IEngine(ISolver):
                 [vx1, vy1, vx2, vy2, ..., vxn, vyn, ax1, ay1, ax2, ay2, ..., axn, ayn]
             where vxi, vyi are the velocities and axi, ayi are the accelerations.
         """
-        mass =[]
         
-        for element in World :
-            mass.append(element.mass)
-        
-        
-        n = len(y0)
-        state = []
-        y0 = self.y0
-        for i in range (0, n):
-            state.append(y0[i+n])
-            
-            
-        for j in range(0,n):
-            for k in range (0,n):
-                if j!=k:
-                    a += (1/mass[j]) * gravitational_force(y0[j] , mass[j] , y0[k] , mass[k])
-            state.append(a)
-            a=0
-            
-        return state
     
         raise NotImplementedError
 
@@ -80,26 +48,73 @@ class IEngine(ISolver):
                 [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
             where xi, yi are the positions and vxi, vyi are the velocities.
         """
-        
-        y = ISolver().__init__(self.derivatives, t0, y0, max_step_size=0.01)
-        y = y.ISolver.integrate(t)
-        
 
-        return y
-
-        
         raise NotImplementedError
 
 
 
-
-
-
-
-
-
-
-
-
 class DummyEngine(IEngine):
+    
+    def derivatives(self, t0, y0):
+        """ This is the method that will be fed to the solver
+            it does not use it's first argument t0,
+            its second argument y0 is a vector containing the positions
+            and velocities of the bodies, it is laid out as follow
+                [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
+            where xi, yi are the positions and vxi, vyi are the velocities.
+
+            Return the derivative of the state, it is laid out as follow
+                [vx1, vy1, vx2, vy2, ..., vxn, vyn, ax1, ay1, ax2, ay2, ..., axn, ayn]
+            where vxi, vyi are the velocities and axi, ayi are the accelerations.
+        """
+        
+        
+        n = floor(len(y0)/4)
+        y0_prime = Vector(4*n)
+        F = Vector2(0,0)
+            
+        for i in range(n) :
+            y0_prime[2*i] = y0[2*(n+i)]
+            y0_prime[2*i + 1] = y0[2*(n+i) + 1] 
+            
+            pos1 = Vector2( y0[2*i], y0[2*i+1])
+            F.set_x(0)
+            F.set_y(0)
+            
+            for k in range(n) :
+                if k != i :
+                    body = self.world._bodies[i]
+                    F += gravitational_force( body.mass, pos1, body.position)
+            
+            y0_prime[2*(n+i)] = F.get_x()
+            y0_prime[2*(n+i) +  1] = F.get_y()
+            
+        return y0_prime
+    
+    
+    
+    def make_solver_state(self, world, t, t0):
+        """ Returns the state given to the solver, it is the vector y in
+                y' = f(t, y)
+            In our case, it is the vector containing the
+            positions and speeds of all our bodies:
+                [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
+            where xi, yi are the positions and vxi, vyi are the velocities.
+        """
+        
+        n = self.world.__len__()
+        y0 = Vector(4*n)
+        
+        for i in range(n) :
+            body = world._bodies[i]
+            y0[2*i] = body.position.get_x
+            y0[2*i + 1] = body.position.get_y
+            y0[2*(n+i)] = body.velocity.get_x
+            y0[2*(n+i) + 1] = body.velocity.get_y
+        
+        y = ISolver(self.derivatives(0,  y0), t0, y0, max_step_size=0.01)
+        y = y.integrate(t)
+        
+        return y
+    
     pass
