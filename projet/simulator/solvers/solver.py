@@ -41,4 +41,4 @@ class DummySolver(ISolver):
         
         self.y0 = ((y_t1-y_t0)/h)*(t-self.t0) + y_t0
         
-        return self.y
+        return self.y0

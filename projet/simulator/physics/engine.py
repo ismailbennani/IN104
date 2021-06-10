@@ -11,20 +11,7 @@ def gravitational_force( mass2, pos1, pos2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
     """
-<<<<<<< HEAD
-    if pos1==pos2 :
-        F = 0
-    else :
-        F = (G*mass2/(Vector.norm(pos1-pos2)**3))*(pos2-pos1)
-        
-    return F
-=======
-
-
-    F = (G*(mass2)/(((pos1-pos2).norm())**3))*(pos2 - pos1)
-
     
-    return  F
     if pos1==pos2 :
         F=0
     else :
@@ -57,7 +44,7 @@ class IEngine(ISolver):
     
         raise NotImplementedError
 
-    def make_solver_state(self, t, t0):
+    def make_solver_state(self):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
             In our case, it is the vector containing the
@@ -71,7 +58,7 @@ class IEngine(ISolver):
 
 class DummyEngine(IEngine):
     
-    def derivatives(self, world, t0, y0):
+    def derivatives(self, t0, y0):
         """ This is the method that will be fed to the solver
             it does not use it's first argument t0,
             its second argument y0 is a vector containing the positions
@@ -114,7 +101,7 @@ class DummyEngine(IEngine):
     
     
     
-    def make_solver_state(self, world, t, t0):
+    def make_solver_state(self):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
             In our case, it is the vector containing the
