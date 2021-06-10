@@ -11,8 +11,10 @@ def gravitational_force( mass2, pos1, pos2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
     """
-    
-    F = (G*(mass2)/(((pos1-pos2).norm)**3))*(pos2 - pos1)
+
+
+    F = (G*(mass2)/(((pos1-pos2).norm())**3))*(pos2 - pos1)
+
     
     return  F
 
@@ -25,12 +27,14 @@ class IEngine(ISolver):
         
 
     def derivatives(self, t0, y0):
+
         """ This is the method that will be fed to the solver
             it does not use it's first argument t0,
             its second argument y0 is a vector containing the positions
             and velocities of the bodies, it is laid out as follow
                 [x1, y1, x2, y2, ..., xn, yn, vx1, vy1, vx2, vy2, ..., vxn, vyn]
             where xi, yi are the positions and vxi, vyi are the velocities.
+
             Return the derivative of the state, it is laid out as follow
                 [vx1, vy1, vx2, vy2, ..., vxn, vyn, ax1, ay1, ax2, ay2, ..., axn, ayn]
             where vxi, vyi are the velocities and axi, ayi are the accelerations.
@@ -39,7 +43,7 @@ class IEngine(ISolver):
     
         raise NotImplementedError
 
-    def make_solver_state(self, t, t0, y0):
+    def make_solver_state(self, t, t0):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
             In our case, it is the vector containing the
@@ -49,7 +53,6 @@ class IEngine(ISolver):
         """
 
         raise NotImplementedError
-
 
 
 class DummyEngine(IEngine):
@@ -108,15 +111,14 @@ class DummyEngine(IEngine):
         y0 = Vector(4*n)
         
         for i in range(n) :
-            body = world._bodies[i]
-            y0[2*i] = body.position.get_x
-            y0[2*i + 1] = body.position.get_y
-            y0[2*(n+i)] = body.velocity.get_x
-            y0[2*(n+i) + 1] = body.velocity.get_y
+
+            body = self.world._bodies[i]
+            y0[2*i] = body.position.get_x()
+            y0[2*i + 1] = body.position.get_y()
+            y0[2*(n+i)] = body.velocity.get_x()
+            y0[2*(n+i) + 1] = body.velocity.get_y()
         
-        y = ISolver(self.derivatives( world, 0,  y0), t0, y0, max_step_size=0.01)
-        y = y.integrate(t)
-        
-        return y
-    
+      
+        return y0
+
     pass

@@ -27,10 +27,26 @@ class DummySolver(ISolver):
             throughout the execution of the program.
             Return the new state at time t.
         """
+<<<<<<< HEAD
+=======
+        
+        raise NotImplementedError
+
+
+class DummySolver(ISolver):
+    def integrate(self, t):
+        """ Compute the solution of the system at t
+            The input `t` given to this method should be increasing
+            throughout the execution of the program.
+            Return the new state at time t.
+        """
+>>>>>>> 0d264261806a298ce8240a444b413424a5d5a5a0
         h = self.max_step_size
         y = self.y0
         
         while(self.t0<t):
             y += h * self.f( self.t0 , y)
             self.t0 += h
+
         return y
+

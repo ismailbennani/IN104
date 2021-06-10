@@ -50,4 +50,3 @@ class World:
             (len(self),
              '\n\t'.join([str(i) + ": " + str(self._bodies[i])
                           for i in range(len(self))]))
-            
