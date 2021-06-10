@@ -11,10 +11,12 @@ def gravitational_force( mass2, pos1, pos2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
     """
-    
-    F = (G*(mass2)/(((pos1-pos2).norm())**3))*(pos2 - pos1)
-    
-    return  F
+    if pos1==pos2 :
+        F = 0
+    else :
+        F = (G*mass2/(Vector.norm(pos1-pos2)**3))*(pos2-pos1)
+        
+    return F
 
     raise NotImplementedError
     
@@ -83,7 +85,7 @@ class DummyEngine(IEngine):
             
             for k in range(n) :
                 if k != i :
-                    body = self.world.get(i)
+                    body = self.world.get(k)
                     F += gravitational_force( body.mass, pos1, body.position)
             
             y0_prime[2*(n+i)] = F.get_x()

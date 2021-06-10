@@ -38,7 +38,14 @@ class DummySolver(ISolver):
         h = self.max_step_size
         y = self.y0
         
-        while(self.t0<t):
+        while(self.t0 - h <t):     
             y += h * self.f( self.t0 , y)
             self.t0 += h
-        return y
+            
+        y_t0 = y 
+        y_t1 = y + h*self.f(self.t0, y)
+        
+        
+        self.y0 = ((y_t1-y_t0)/h)*(t-self.t0) + y_t0
+        
+        return self.y0
