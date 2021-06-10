@@ -25,7 +25,7 @@ class Screen:
         # this will be true when the user presses the exit button of the window
         self.should_quit = False
 
-        # this is used to limit the
+        # this is used to limit the!
         # number of frames computed evey second
         self.clock = pg.time.Clock()
 
@@ -52,7 +52,7 @@ class Screen:
                     self._buttons[event.button - 1] = True
 
         self.frame += 1
-
+ 
     def draw(self, world):
         self._screen.fill(self._bg_color)
 
