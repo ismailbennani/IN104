@@ -13,7 +13,7 @@ class Simulator:
         # the vector of state variables (the positions
         # and velocities of the bodies) as a Vector
 
-        y0 = self.engine.make_solver_state(self.t, 0)
+        y0 = self.engine.make_solver_state
 
         self.solver = Solver(self.engine.derivatives, self.t, y0)
 

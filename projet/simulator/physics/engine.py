@@ -12,7 +12,7 @@ def gravitational_force( mass2, pos1, pos2):
         by a body in pos2 with mass2
     """
     
-    F = (G*(mass2)/(((pos1-pos2).norm)**3))*(pos2 - pos1)
+    F = (G*(mass2)/(((pos1-pos2).norm())**3))*(pos2 - pos1)
     
     return  F
 
@@ -96,7 +96,7 @@ class DummyEngine(IEngine):
         return y0_prime
     
     
-    def make_solver_state(self, t, t0):
+    def make_solver_state(self):
         """ Returns the state given to the solver, it is the vector y in
                 y' = f(t, y)
             In our case, it is the vector containing the
@@ -115,9 +115,7 @@ class DummyEngine(IEngine):
             y0[2*(n+i)] = body.velocity.get_x()
             y0[2*(n+i) + 1] = body.velocity.get_y()
         
-        y = ISolver(self.derivatives( 0,  y0), t0, y0, max_step_size=0.01)
-        y = y.integrate(t)
-        
-        return y
+      
+        return y0
     
     pass
