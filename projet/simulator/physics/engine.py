@@ -11,7 +11,7 @@ def gravitational_force(body1, body2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
     """
-    
+  
     pos1 = body1.position
     pos2 = body2.position
     m1 = body1.mass
@@ -22,16 +22,18 @@ def gravitational_force(body1, body2):
     distance = (pos2-pos1).norm()
     dist_min = body1.draw_radius + body2.draw_radius
     
-    #vecteur unitaire directeur de la force
+    #vecteur unitaire directeur de la force, dirigé de pos1 vers pos2
     u = (pos2 - pos1)/distance 
     
-    
-    if  distance <= dist_min*3:
+    # densité de Dirac de l'accéleration lors de la colision, correspondant à 
+    # la dérivée du saut de vitesse pendant le choc, d'après la formule des sauts.
+    if  distance <= dist_min : #cas du choc
         F = (v2.dot(u) - (2*m1/(m1 + m2)) * v1.dot(u)) * u
    
-    else :
-        F = (G*m2/(distance**2))*u
-        
+    # composante "continue" de l'accélération, dérivée de la vitesse au sens 
+    # classique, d'après la formule des sauts.
+    else : # cas d'une interaction à distance
+        F = (G*m2/(distance**2)) * u
         
     return F
 
