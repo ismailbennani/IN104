@@ -7,15 +7,31 @@ from ..utils.vector import Vector, Vector2
 
 
 
-def gravitational_force( mass2, pos1, pos2):
+def gravitational_force(body1, body2):
     """ Return the force applied to a body in pos1 with mass1
         by a body in pos2 with mass2
     """
     
-    if pos1==pos2 :
-        F=0
+    pos1 = body1.position
+    pos2 = body2.position
+    m1 = body1.mass
+    m2 = body2.mass
+    v1 = body1.velocity
+    v2 = body2.velocity
+   
+    distance = (pos2-pos1).norm()
+    dist_min = body1.draw_radius + body2.draw_radius
+    
+    #vecteur unitaire directeur de la force
+    u = (pos2 - pos1)/distance 
+    
+    
+    if  distance <= dist_min*3:
+        F = (v2.dot(u) - (2*m1/(m1 + m2)) * v1.dot(u)) * u
+   
     else :
-        F = (G*mass2/(((pos1-pos2).norm())**3))*(pos2-pos1)
+        F = (G*m2/(distance**2))*u
+        
         
     return F
 
@@ -81,14 +97,14 @@ class DummyEngine(IEngine):
             y0_prime[2*i] = y0[2*(n+i)]
             y0_prime[2*i + 1] = y0[2*(n+i) + 1]
             
-            pos1 = Vector2( y0[2*i], y0[2*i+1])
+            body1 = self.world.get(i)
             
             for k in range(n) :
                 if k != i :
 
-                    body = self.world.get(k)
+                    body2 = self.world.get(k)
 
-                    F += gravitational_force( body.mass, pos1, body.position)
+                    F += gravitational_force( body1, body2)
             
             y0_prime[2*(n+i)] = F.get_x()
             y0_prime[2*(n+i) +  1] = F.get_y()
@@ -118,9 +134,19 @@ class DummyEngine(IEngine):
             body = self.world._bodies[i]
             y0[2*i] = body.position.get_x()
             y0[2*i + 1] = body.position.get_y()
+            
             y0[2*(n+i)] = body.velocity.get_x()
             y0[2*(n+i) + 1] = body.velocity.get_y()
         
+            """ Proposition de Simon
+            for k in range(n):
+                if k!=i:
+                    
+                    if Vector.norm(Vector2(y0[2*i], y0[2*i+1])-Vector2(y0[2*k],y0[2*k+1]) :
+                                   y0[2*(n+i)] =
+                                   y0[2*(n+i)+1] =
+            """
+            
       
         return y0
 

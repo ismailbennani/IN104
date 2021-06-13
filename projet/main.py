@@ -10,17 +10,32 @@ import pygame as pg
 
 if __name__ == "__main__":
     b1 = Body(Vector2(0, 0),
-              velocity=Vector2(0, 0),
+              velocity=Vector2(-3, -3),
               mass=10,
               draw_radius=10)
     b2 = Body(Vector2(2, 2),
               velocity=Vector2(0, 0),
               mass=1,
               draw_radius=5)
+    b3 = Body(Vector2(-1, -3),
+              velocity=Vector2(0, 0),
+              mass=5,
+              draw_radius=7)
+    b4 = Body(Vector2(1, 3),
+              velocity=Vector2(0, 0),
+              mass=3,
+              draw_radius=3)
+    b5 = Body(Vector2(-4, 2),
+              velocity=Vector2(0, 0),
+              mass=6,
+              draw_radius=8)
 
     world = World()
     world.add(b1)
     world.add(b2)
+    world.add(b3)
+    world.add(b4)
+    world.add(b5)
 
     simulator = Simulator(world, DummyEngine, DummySolver)
 

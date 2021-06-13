@@ -124,6 +124,17 @@ class Vector:
             for i in range(self.dim):
                 result[i] = self[i] / other
             return result
+        
+    # this is called to return the dot product of a with b : a.b
+    # where a is a vector
+    def dot(self, other): 
+        if isinstance(other, Vector):
+            if (self.dim != other.dim):
+                raise VectorError("Cannot multiply vectors of dim %d and %d" % (
+                    self.dim, other.dim))
+            return sum(self.__mul__(other))
+        else:
+            return self.__mul__(other)
 
     # endregion
 
